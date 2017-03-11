@@ -34,12 +34,13 @@
 # possible.
 import sys
 sys.path.insert(0, '../_utils')
+sys.path.insert(0, './estimators')
 
 from robot import *
 from math import *
 from matrix import *
 from helpers import *
-from average_position_estimator import *
+from average_position import average_estimator_next_position
 from chase_graders import simple_grading, graphic_grading
 import random
 
