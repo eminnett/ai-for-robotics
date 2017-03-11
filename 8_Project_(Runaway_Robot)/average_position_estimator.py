@@ -1,3 +1,5 @@
+from math import *
+
 def average_estimator_next_position(measurements):
     x, y = measurements[-1]
 
@@ -12,7 +14,7 @@ def average_estimator_next_position(measurements):
         distances = [sqrt(dx_s[0]**2 + dy_s[0]**2)]
         if len(measurements) > 2:
 
-            for i in xrange(len(measurements) - 1):
+            for i in range(len(measurements) - 1):
                 x_p,  y_p  = measurements[-i-1]
                 x_pp, y_pp = measurements[-i-2]
                 dx_s.append((x_p - x_pp))
@@ -21,7 +23,7 @@ def average_estimator_next_position(measurements):
             avg_dx = sum(dx_s) / len(dx_s)
             avg_dy = sum(dy_s) / len(dy_s)
 
-            for j in xrange(len(dx_s) - 1):
+            for j in range(len(dx_s) - 1):
                 dx = dx_s[j]
                 dy = dy_s[j]
                 dx2 = dx_s[j+1]

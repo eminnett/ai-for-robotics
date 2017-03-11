@@ -38,7 +38,7 @@ sys.path.insert(0, '../_utils')
 from robot import *
 from math import *
 from matrix import *
-from helper import *
+from helpers import *
 from average_position_estimator import *
 from chase_graders import simple_grading, graphic_grading
 import random
@@ -98,4 +98,4 @@ target.set_noise(0.0, 0.0, measurement_noise)
 
 hunter = robot(-10.0, -10.0, 0.0)
 
-print graphic_grading(hunter, target, next_move)
+print(graphic_grading(hunter, target, next_move))

@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '../_utils')
 
-from helper import *
+from helpers import *
 import time
 
 # This is here to give you a sense for how we will be running and grading
@@ -22,10 +22,10 @@ def simple_grading(estimate_next_pos_fcn, target_bot, OTHER = None):
         true_position = (target_bot.x, target_bot.y)
         error = distance_between(position_guess, true_position)
         if error <= distance_tolerance:
-            print "You got it right! It took you ", ctr, " steps to localize."
+            print("You got it right! It took you ", ctr, " steps to localize.")
             localized = True
         if ctr == 1000:
-            print "Sorry, it took you too many steps to localize the target."
+            print("Sorry, it took you too many steps to localize the target.")
     return localized
 
 # If you would like a visualization, you can can replace the demo_grading
@@ -71,12 +71,12 @@ def graphic_grading(estimate_next_pos_fcn, target_bot, OTHER = None):
         target_bot.move_in_circle()
         true_position = (target_bot.x, target_bot.y)
         error = distance_between(position_guess, true_position)
-        print "Error: ", error, distance_tolerance
+        print("Error: ", error, distance_tolerance)
         if error <= distance_tolerance:
-            print "You got it right! It took you ", ctr, " steps to localize."
+            print("You got it right! It took you ", ctr, " steps to localize.")
             localized = True
         if ctr == 1000:
-            print "Sorry, it took you too many steps to localize the target."
+            print("Sorry, it took you too many steps to localize the target.")
         #More Visualization
         measured_broken_robot.setheading(target_bot.heading*180/pi)
         measured_broken_robot.goto(measurement[0]*size_multiplier, measurement[1]*size_multiplier-200)
@@ -87,6 +87,6 @@ def graphic_grading(estimate_next_pos_fcn, target_bot, OTHER = None):
         prediction.setheading(target_bot.heading*180/pi)
         prediction.goto(position_guess[0]*size_multiplier, position_guess[1]*size_multiplier-200)
         prediction.stamp()
-        time.sleep(1)
+        time.sleep(0.1)
         #End of Visualization
     return localized

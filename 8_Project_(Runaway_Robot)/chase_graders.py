@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '../_utils')
 
-from helper import *
+from helpers import *
 
 # This is here to give you a sense for how we will be running and grading
 # your code. Note that the OTHER variable allows you to store any
@@ -23,7 +23,7 @@ def simple_grading(hunter_bot, target_bot, next_move_fcn, OTHER = None):
         target_position = (target_bot.x, target_bot.y)
         separation = distance_between(hunter_position, target_position)
         if separation < separation_tolerance:
-            print "You got it right! It took you ", ctr, " steps to catch the target."
+            print("You got it right! It took you ", ctr, " steps to catch the target.")
             caught = True
 
         # The target broadcasts its noisy measurement
@@ -44,7 +44,7 @@ def simple_grading(hunter_bot, target_bot, next_move_fcn, OTHER = None):
 
         ctr += 1
         if ctr >= 1000:
-            print "It took too many steps to catch the target."
+            print("It took too many steps to catch the target.")
     return caught
 
 # If you would like a visualization, you can can replace the demo_grading
@@ -99,7 +99,7 @@ def graphic_grading(hunter_bot, target_bot, next_move_fcn, OTHER = None):
         target_position = (target_bot.x, target_bot.y)
         separation = distance_between(hunter_position, target_position)
         if separation < separation_tolerance:
-            print "You got it right! It took you ", ctr, " steps to catch the target."
+            print("You got it right! It took you ", ctr, " steps to catch the target.")
             caught = True
 
         # The target broadcasts its noisy measurement
@@ -128,5 +128,5 @@ def graphic_grading(hunter_bot, target_bot, next_move_fcn, OTHER = None):
         #End of visualization
         ctr += 1
         if ctr >= 1000:
-            print "It took too many steps to catch the target."
+            print("It took too many steps to catch the target.")
     return caught
