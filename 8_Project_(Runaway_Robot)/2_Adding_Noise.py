@@ -34,9 +34,11 @@ from robot import *
 from math import *
 from matrix import *
 from helpers import *
-from average_position import average_estimator_next_position
+from position_estimator import *
 from localisation_graders import simple_grading, graphic_grading
 import random
+
+robot_estimator = position_estimator(strategy='mean_position')
 
 # This is the function you have to write. Note that measurement is a
 # single (x, y) point. This function will have to be called multiple
@@ -48,13 +50,7 @@ def estimate_next_pos(measurement, OTHER = None):
     """Estimate the next (x, y) position of the wandering Traxbot
     based on noisy (x, y) measurements."""
 
-    if OTHER == None:
-        OTHER = []
-
-    OTHER.append(measurement)
-    measurements = OTHER
-
-    xy_estimate = average_estimator_next_position(measurements)
+    xy_estimate = robot_estimator.next_position(measurement)
 
     # You must return xy_estimate (x, y), and OTHER (even if it is None)
     # in this order for grading purposes.

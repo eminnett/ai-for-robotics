@@ -1,10 +1,10 @@
 from math import *
 
-def average_estimator_next_position(measurements):
-    x, y = measurements[-1]
+def estimate_position_from_means(history, measurement):
+    x, y = measurement
 
-    if len(measurements) > 1:
-        x_p, y_p = measurements[-2]
+    if len(history) > 0:
+        x_p, y_p = history[-1]
 
         dx_s = [(x - x_p)]
         dy_s = [(y - y_p)]
@@ -12,11 +12,12 @@ def average_estimator_next_position(measurements):
         avg_theta = 0
         thetas = []
         distances = [sqrt(dx_s[0]**2 + dy_s[0]**2)]
-        if len(measurements) > 2:
+        if len(history) > 1:
+            history.append(measurement)
 
-            for i in range(len(measurements) - 1):
-                x_p,  y_p  = measurements[-i-1]
-                x_pp, y_pp = measurements[-i-2]
+            for i in range(len(history) - 1):
+                x_p,  y_p  = history[-i-1]
+                x_pp, y_pp = history[-i-2]
                 dx_s.append((x_p - x_pp))
                 dy_s.append((y_p - y_pp))
 
@@ -44,6 +45,6 @@ def average_estimator_next_position(measurements):
         angle = alpha + avg_theta
         xy_estimate = (x + avg_dist * cos(angle), y + avg_dist * sin(angle))
     else:
-        xy_estimate = (x, y)
+        xy_estimate = measurement
 
     return xy_estimate

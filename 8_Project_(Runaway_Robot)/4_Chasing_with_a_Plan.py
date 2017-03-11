@@ -22,9 +22,11 @@ from robot import *
 from math import *
 from matrix import *
 from helpers import *
-from average_position import average_estimator_next_position
+from position_estimator import *
 from chase_graders import simple_grading, graphic_grading
 import random
+
+robot_estimator = position_estimator(strategy='mean_position')
 
 def next_move(hunter_position, hunter_heading, target_measurement, max_distance, OTHER = None):
     # This function will be called after each time the target moves.
@@ -43,7 +45,7 @@ def next_move(hunter_position, hunter_heading, target_measurement, max_distance,
         OTHER[2].append(hunter_heading)
         measurements, hunter_positions, hunter_headings = OTHER # now I can always refer to these variables
 
-    xy_estimate = average_estimator_next_position(measurements)
+    xy_estimate = robot_estimator.next_position(target_measurement)
 
     distance_to_predictied_position = distance_between(hunter_position, xy_estimate)
     distance = min(max_distance, distance_to_predictied_position)
