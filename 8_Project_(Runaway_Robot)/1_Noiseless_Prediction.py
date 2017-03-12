@@ -67,7 +67,8 @@ from position_estimator import *
 from localisation_graders import simple_grading, graphic_grading
 import random
 
-robot_estimator = position_estimator(strategy='mean_position')
+# robot_estimator = position_estimator(strategy='mean_position')
+robot_estimator = position_estimator(strategy='circular_kalman_filter')
 
 # This is the function you have to write. The argument 'measurement' is a
 # single (x, y) point. This function will have to be called multiple
@@ -80,7 +81,8 @@ def estimate_next_pos(measurement, OTHER = None):
     based on noisy (x, y) measurements."""
 
     # strategy='mean_position': Consistently finds the robot in 3 steps.
-    # strategy='kalman_filter': Consistently finds the robot in ? steps.
+    # strategy='cartesian_kalman_filter': Does not converge.
+    # strategy='polar_kalman_filter': ...
     # strategy='particle_filter': Consistently finds the robot in ? steps.
     xy_estimate = robot_estimator.next_position(measurement)
 

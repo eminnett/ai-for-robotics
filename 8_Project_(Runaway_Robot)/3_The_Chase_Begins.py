@@ -44,7 +44,7 @@ from position_estimator import *
 from chase_graders import simple_grading, graphic_grading
 import random
 
-robot_estimator = position_estimator(strategy='mean_position')
+robot_estimator = position_estimator(strategy='circular_kalman_filter')
 
 def next_move(hunter_position, hunter_heading, target_measurement, max_distance, OTHER = None):
     # This function will be called after each time the target moves.

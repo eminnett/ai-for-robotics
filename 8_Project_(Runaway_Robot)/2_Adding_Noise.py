@@ -38,7 +38,8 @@ from position_estimator import *
 from localisation_graders import simple_grading, graphic_grading
 import random
 
-robot_estimator = position_estimator(strategy='mean_position')
+# robot_estimator = position_estimator(strategy='mean_position')
+robot_estimator = position_estimator(strategy='circular_kalman_filter')
 
 # This is the function you have to write. Note that measurement is a
 # single (x, y) point. This function will have to be called multiple
