@@ -83,7 +83,7 @@ def estimate_next_pos(measurement, OTHER = None):
     # strategy='mean_position': Consistently finds the robot in 3 steps.
     # strategy='cartesian_kalman_filter': Does not converge.
     # strategy='polar_kalman_filter': ...
-    # strategy='particle_filter': Consistently finds the robot in ? steps.
+    # strategy='particle_filter': ...
     xy_estimate = robot_estimator.next_position(measurement)
 
     # You must return xy_estimate (x, y), and OTHER (even if it is None)

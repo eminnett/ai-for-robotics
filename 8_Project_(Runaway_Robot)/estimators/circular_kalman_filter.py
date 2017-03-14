@@ -2,48 +2,48 @@ from kalman_filter_2d import *
 from helpers import *
 
 class circular_kf_estimator:
+    def __init__(self):
+        self.predictions = []
+
     def predict(self, history, measurement):
         if len(history) < 2:
             return measurement
+
+        d_theta = self.points_to_distance_and_rotation(history[-2], history[-1], measurement)
+        print('d_theta: {}'.format(d_theta))
         if len(history) == 2:
-            d_theta = self.points_to_distance_and_rotation(history[-1], measurement)
-            d_theta_p = self.points_to_distance_and_rotation(history[-2], history[-1])
-            d_theta_o = self.points_to_distance_and_rotation((0,0), history[-1])
-            # When the robot has moved at least twice, we want set theta to be the difference between measurements.
-            # This works but it shouldn't
-            theta = d_theta[1] - d_theta_o[1]
-            d_theta = (d_theta[0], theta)
-            print('First d_theta_o: {}'.format(d_theta_o))
-            print('First d_theta_p: {}'.format(d_theta_p))
-            print('First d_theta: {}'.format(d_theta))
             self.kf = kalman_filter_2d(d_theta)
-            d_est, theta_est = self.kf.predict()
-            theta_est += d_theta_p[1]
-            return self.point_distance_and_rotation_to_point(measurement, d_est, theta_est)
-
-        # Update Kalman filter
-        d_theta = self.points_to_distance_and_rotation(history[-1], measurement)
-        d_theta_p = self.points_to_distance_and_rotation(history[-2], history[-1])
-        # When the robot has moved at least twice, we want set theta to be the difference between measurements.
-        theta = d_theta[1] - d_theta_p[1]
-        if theta < -pi:
-            theta += 2*pi
-        d_theta = (d_theta[0], theta)
-
-        print('Update d_theta: {}'.format(d_theta))
-        self.kf.update(d_theta)
-        # Get prediction from Kalman filter
+        else:
+            self.kf.update(d_theta)
         d_est, theta_est = self.kf.predict()
-        print('Estimated d_theta: {}'.format((d_est, theta_est)))
-        theta_est += d_theta_p[1]
-        return self.point_distance_and_rotation_to_point(measurement, d_est, theta_est)
+        print('d_est: {}, theta_est: {}'.format(d_est, theta_est))
+        theta_est += self.angle_between_vector_and_horizontal(history[-1], measurement)
+        print('theta_est (after addition): {}'.format(theta_est))
 
-    def points_to_distance_and_rotation(self, pt1, pt2):
-        d = distance_between(pt1, pt2)
-        pt1x, pt1y = pt1
-        pt2x, pt2y = pt2
-        theta = atan2(pt2y - pt1y, pt2x - pt1x)
+        prev_prediction = self.predictions[-1] if len(self.predictions) > 0 else measurement
+        prediction = self.point_distance_and_rotation_to_point(prev_prediction, d_est, theta_est)
+        self.predictions.append(prediction)
+        return prediction
+
+    def points_to_distance_and_rotation(self, pt1, pt2, pt3):
+        d = distance_between(pt2, pt3)
+        x1, y1 = pt1
+        x2, y2 = pt2
+        x3, y3 = pt3
+        # The vector between pt1 and pt2
+        a = (x2 - x1, y2 - y1)
+        # The vector between pt2 and pt3
+        b = (x3 - x2, y3 - y2)
+        # theta is the angle of rotation between the line extending from a and b.
+        theta = acos(dot(a, b)/(distance_between(pt1, pt2)*distance_between(pt2, pt3)))
         return (d, theta)
+
+    def angle_between_vector_and_horizontal(self, pt1, pt2):
+        pt0 = pt1[0] - 1, pt1[1]
+        theta = self.points_to_distance_and_rotation(pt0, pt1, pt2)[1]
+        if pt2[1] < pt1[1]:
+            theta *= -1
+        return theta
 
     def point_distance_and_rotation_to_point(self, pt1, d, theta):
         pt1x, pt1y = pt1

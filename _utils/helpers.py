@@ -1,5 +1,11 @@
 from math import *
 
+def dot(vec1, vec2):
+    """Computes the dot product between the two vectors"""
+    x1, y1 = vec1
+    x2, y2 = vec2
+    return x1*x2 + y1*y2
+
 def distance_between(point1, point2):
     """Computes distance between point1 and point2. Points are (x, y) pairs."""
     x1, y1 = point1
